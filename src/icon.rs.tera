@@ -12,7 +12,16 @@ pub enum Icon {
 }
 
 impl Icon {
-    /// Get the unicode glyph corresponding to an icon.
+    /// The icon label.
+    pub fn label(self) -> &'static str {
+        match self {
+{%- for icon in icons %}
+            Self::{{ icon.ident }} => "{{ icon.label }}",
+{%- endfor %}
+        }
+    }
+
+    /// The unicode glyph corresponding to an icon.
     pub fn to_char(self) -> char {
         match self {
 {%- for icon in icons %}

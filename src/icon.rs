@@ -20,6 +20,11 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_label() {
+        assert_eq!(Icon::Rust.label(), "Rust");
+    }
+
+    #[test]
     fn test_to_char() {
         assert_eq!(Icon::Rust.to_char(), '\u{e07a}');
     }
