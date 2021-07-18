@@ -36,6 +36,6 @@ mod tests {
 
     #[test]
     fn test_display() {
-        assert_eq!(format!("hello {}", Icon::Rust), "hello \u{e07a}")
+        assert_eq!(format!("hello {}", Icon::Rust), "hello \u{e07a}");
     }
 }
