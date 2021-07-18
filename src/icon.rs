@@ -20,6 +20,17 @@ mod tests {
     use super::*;
 
     #[test]
+    fn test_variants() {
+        assert_eq!(
+            Icon::variants()
+                .iter()
+                .filter(|icon| *icon == &Icon::Rust)
+                .count(),
+            1,
+        );
+    }
+
+    #[test]
     fn test_label() {
         assert_eq!(Icon::Rust.label(), "Rust");
     }

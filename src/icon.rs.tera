@@ -12,6 +12,16 @@ pub enum Icon {
 }
 
 impl Icon {
+    /// The array of all available icons.
+    pub fn variants() -> [Self; {{ icons | length }}] {
+        static VARIANTS: [Icon; {{ icons | length }}] = [
+{%- for icon in icons %}
+            Icon::{{ icon.ident }},
+{%- endfor %}
+        ];
+        VARIANTS
+    }
+
     /// The icon label.
     pub fn label(self) -> &'static str {
         match self {
