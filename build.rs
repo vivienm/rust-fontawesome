@@ -79,7 +79,7 @@ async fn main() -> anyhow::Result<()> {
     let target_path = target_dir.join("icon.rs");
     dump_module(&icons, &target_path)?;
 
-    println!("cargo:warning=Output file written to {:?}", &target_path);
+    println!("Output file written to {:?}", &target_path);
     println!("cargo:rerun-if-changed=build.rs");
     println!("cargo:rerun-if-changed=src/icon.rs.tera");
     Ok(())
