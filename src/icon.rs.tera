@@ -1,0 +1,19 @@
+pub const VERSION: &'static str = "{{ version }}";
+
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+pub enum Icon {
+{%- for icon in icons %}
+    /// {{ icon.label }}
+    {{ icon.ident }},
+{%- endfor %}
+}
+
+impl Icon {
+    pub fn to_char(&self) -> char {
+        match self {
+{%- for icon in icons %}
+            Self::{{ icon.ident }} => '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}',
+{%- endfor %}
+        }
+    }
+}
