@@ -1,5 +1,5 @@
 /// Version of Font Awesome icons.
-pub const VERSION: &'static str = "{{ version }}";
+pub const VERSION: &str = "{{ version }}";
 
 /// The list of Font Awesome icons.
 /// You may also [check out the gallery](https://fontawesome.com/v{{ version }}/icons).
@@ -13,7 +13,7 @@ pub enum Icon {
 
 impl Icon {
     /// Get the unicode glyph corresponding to an icon.
-    pub fn to_char(&self) -> char {
+    pub fn to_char(self) -> char {
         match self {
 {%- for icon in icons %}
             Self::{{ icon.ident }} => '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}',

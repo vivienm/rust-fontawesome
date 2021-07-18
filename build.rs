@@ -4,11 +4,10 @@ use std::fs::File;
 use std::path::{Path, PathBuf};
 
 use convert_case::{Case, Casing};
-use reqwest;
 use serde::{Deserialize, Serialize};
 use tera::Tera;
 
-static FA_VERSION: &'static str = "5.15.3";
+static FA_VERSION: &str = "5.15.3";
 
 #[derive(Debug, Deserialize)]
 struct IconData {

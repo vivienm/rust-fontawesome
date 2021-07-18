@@ -2,9 +2,9 @@ use std::fmt;
 
 include!(concat!(env!("OUT_DIR"), "/icon.rs"));
 
-impl From<&Icon> for char {
+impl From<Icon> for char {
     #[inline]
-    fn from(icon: &Icon) -> Self {
+    fn from(icon: Icon) -> Self {
         icon.to_char()
     }
 }
@@ -26,7 +26,7 @@ mod tests {
 
     #[test]
     fn test_into() {
-        assert_eq!(Into::<char>::into(&Icon::Rust), '\u{e07a}');
+        assert_eq!(Into::<char>::into(Icon::Rust), '\u{e07a}');
     }
 
     #[test]
