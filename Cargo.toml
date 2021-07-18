@@ -1,7 +1,10 @@
 [package]
 name = "fontawesome"
 version = "0.1.0"
+authors = ["Vivien Maisonneuve <v.maisonneuve@gmail.com>"]
 edition = "2018"
+description = "The Font Awesome icon set for Rust"
+license = "MIT"
 
 [build-dependencies]
 anyhow = "1.0.41"
