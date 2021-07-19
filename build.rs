@@ -61,7 +61,7 @@ async fn load_icons() -> anyhow::Result<Vec<Icon>> {
             unicode: data.unicode,
         })
         .collect();
-    icons.sort_by(|i1, i2| i1.unicode.cmp(&i2.unicode));
+    icons.sort_by(|i1, i2| i1.name.cmp(&i2.name));
     Ok(icons)
 }
 
