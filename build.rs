@@ -17,14 +17,14 @@ struct IconData {
 
 #[derive(Debug, Serialize)]
 struct Icon {
-    ident: String,
+    const_ident: String,
+    enum_ident: String,
     name: String,
     label: String,
     unicode: String,
 }
 
-fn icon_ident_from_name(icon_name: &str) -> String {
-    let mut icon_name = icon_name.to_case(Case::Pascal);
+fn fix_leading_digit(mut icon_name: String) -> String {
     if icon_name
         .chars()
         .next()
@@ -34,6 +34,14 @@ fn icon_ident_from_name(icon_name: &str) -> String {
         icon_name.insert(0, '_');
     }
     icon_name
+}
+
+fn const_ident_from_name(icon_name: &str) -> String {
+    icon_name.to_case(Case::ScreamingSnake)
+}
+
+fn enum_ident_from_name(icon_name: &str) -> String {
+    fix_leading_digit(icon_name.to_case(Case::Pascal))
 }
 
 async fn load_icons() -> anyhow::Result<Vec<Icon>> {
@@ -46,7 +54,8 @@ async fn load_icons() -> anyhow::Result<Vec<Icon>> {
     let mut icons: Vec<Icon> = icons
         .into_iter()
         .map(|(name, data)| Icon {
-            ident: icon_ident_from_name(&name),
+            const_ident: const_ident_from_name(&name),
+            enum_ident: enum_ident_from_name(&name),
             name,
             label: data.label,
             unicode: data.unicode,
