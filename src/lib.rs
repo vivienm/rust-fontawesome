@@ -1,4 +1,8 @@
 //! The [Font Awesome](https://fontawesome.com/) icon set for Rust.
+//!
+//! ```
+//! println!("Hello {}", fontawesome::CHAR_RUST);
+//! ```
 
 include!(concat!(env!("OUT_DIR"), "/icon.rs"));
 
