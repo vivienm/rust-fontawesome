@@ -4,9 +4,6 @@ cargo := "cargo"
 build:
     {{cargo}} build
 
-run +args="":
-    {{cargo}} run -- {{args}}
-
 clean:
     rm -fr "{{justfile_directory()}}/target"
 
