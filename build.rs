@@ -7,7 +7,7 @@ use convert_case::{Case, Casing};
 use serde::{Deserialize, Serialize};
 use tera::Tera;
 
-static FA_VERSION: &str = "5.15.3";
+static FA_VERSION: &str = "5.15.4";
 
 #[derive(Debug, Deserialize)]
 struct IconData {
