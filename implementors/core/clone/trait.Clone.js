@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["fontawesome"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a> for <a class=\"enum\" href=\"fontawesome/enum.Icon.html\" title=\"enum fontawesome::Icon\">Icon</a>","synthetic":false,"types":["fontawesome::Icon"]}];
+implementors["fontawesome"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.55.0/core/clone/trait.Clone.html\" title=\"trait core::clone::Clone\">Clone</a> for <a class=\"enum\" href=\"fontawesome/enum.Icon.html\" title=\"enum fontawesome::Icon\">Icon</a>","synthetic":false,"types":["fontawesome::Icon"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
