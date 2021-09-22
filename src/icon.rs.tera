@@ -44,3 +44,16 @@ impl Icon {
         }
     }
 }
+
+impl std::convert::TryFrom<char> for Icon {
+    type Error = TryFromIconError;
+
+    fn try_from(value: char) -> Result<Self, Self::Error> {
+        match value {
+{%- for icon in icons %}
+            '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}' => Ok(Self::{{ icon.enum_ident }}),
+{%- endfor %}
+            _ => Err(TryFromIconError),
+        }
+    }
+}

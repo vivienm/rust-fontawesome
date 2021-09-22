@@ -6,6 +6,7 @@
 
 include!(concat!(env!("OUT_DIR"), "/icon.rs"));
 
+use std::error::Error;
 use std::fmt;
 
 impl From<Icon> for char {
@@ -21,8 +22,22 @@ impl fmt::Display for Icon {
     }
 }
 
+/// The error type returned when a character conversion fails.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct TryFromIconError;
+
+impl fmt::Display for TryFromIconError {
+    fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
+        "invalid icon character".fmt(f)
+    }
+}
+
+impl Error for TryFromIconError {}
+
 #[cfg(test)]
 mod tests {
+    use std::convert::TryFrom;
+
     use super::*;
 
     #[test]
@@ -49,6 +64,12 @@ mod tests {
     #[test]
     fn test_into() {
         assert_eq!(Into::<char>::into(Icon::Rust), '\u{e07a}');
+    }
+
+    #[test]
+    fn test_try_from() {
+        assert_eq!(Icon::try_from('\u{e07a}'), Ok(Icon::Rust));
+        assert_eq!(Icon::try_from('\x00'), Err(TryFromIconError));
     }
 
     #[test]
