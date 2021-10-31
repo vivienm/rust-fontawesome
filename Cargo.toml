@@ -12,5 +12,5 @@ convert_case = "0.4.0"
 reqwest = "0.11.3"
 serde = { version = "1.0.126", features = ["derive"] }
 serde_yaml = "0.8.17"
-tera = "1.11.0"
+tera = { version = "1.11.0", default_features = false }
 tokio = { version = "1.7.1", features = ["macros"] }
