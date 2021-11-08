@@ -3,6 +3,11 @@ use std::convert::TryFrom;
 use fontawesome::{Icon, TryFromIconError};
 
 #[test]
+fn count() {
+    assert_eq!(Icon::count(), Icon::variants().len());
+}
+
+#[test]
 fn variants() {
     assert_eq!(
         Icon::variants()
