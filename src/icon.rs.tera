@@ -45,7 +45,7 @@ impl Icon {
     pub const fn char(self) -> char {
         match self {
 {%- for icon in icons %}
-            Self::{{ icon.enum_ident }} => '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}',
+            Self::{{ icon.enum_ident }} => CHAR_{{ icon.const_ident }},
 {%- endfor %}
         }
     }
@@ -57,7 +57,7 @@ impl std::convert::TryFrom<char> for Icon {
     fn try_from(value: char) -> Result<Self, Self::Error> {
         match value {
 {%- for icon in icons %}
-            '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}' => Ok(Self::{{ icon.enum_ident }}),
+            CHAR_{{ icon.const_ident }} => Ok(Self::{{ icon.enum_ident }}),
 {%- endfor %}
             _ => Err(TryFromIconError),
         }
