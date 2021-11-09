@@ -1,3 +1,3 @@
 fn main() {
-    println!("Hello {}", fontawesome::CHAR_RUST);
+    println!("Hello {}", fontawesome::char::RUST);
 }

@@ -37,7 +37,7 @@ fn escape_leading_digit(mut icon_name: String) -> String {
 }
 
 fn const_ident_from_name(icon_name: &str) -> String {
-    icon_name.to_case(Case::ScreamingSnake)
+    escape_leading_digit(icon_name.to_case(Case::ScreamingSnake))
 }
 
 fn enum_ident_from_name(icon_name: &str) -> String {

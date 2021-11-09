@@ -1,7 +1,7 @@
 //! The [Font Awesome](https://fontawesome.com/) icon set for Rust.
 //!
 //! ```
-//! println!("Hello {}", fontawesome::CHAR_RUST);
+//! println!("Hello {}", fontawesome::char::RUST);
 //! ```
 
 include!(concat!(env!("OUT_DIR"), "/lib.rs"));

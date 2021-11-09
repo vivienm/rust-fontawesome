@@ -1,10 +1,15 @@
 /// Version of Font Awesome icon set
 pub const ICON_VERSION: &str = "{{ version }}";
+
+pub mod char {
+    //! Font Awesome icon characters.
 {% for icon in icons %}
 
-/// [`{{ icon.name }}`](https://fontawesome.com/v{{ version }}/icons/{{ icon.name }})
-pub const CHAR_{{ icon.const_ident }}: char = '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}';
+    /// [`{{ icon.name }}`](https://fontawesome.com/v{{ version }}/icons/{{ icon.name }})
+    pub const {{ icon.const_ident }}: char = '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}';
 {%- endfor %}
+
+}
 
 /// The enum of Font Awesome icons.
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
@@ -45,7 +50,7 @@ impl Icon {
     pub const fn char(self) -> char {
         match self {
 {%- for icon in icons %}
-            Self::{{ icon.enum_ident }} => CHAR_{{ icon.const_ident }},
+            Self::{{ icon.enum_ident }} => char::{{ icon.const_ident }},
 {%- endfor %}
         }
     }
@@ -57,7 +62,7 @@ impl std::convert::TryFrom<char> for Icon {
     fn try_from(value: char) -> Result<Self, Self::Error> {
         match value {
 {%- for icon in icons %}
-            CHAR_{{ icon.const_ident }} => Ok(Self::{{ icon.enum_ident }}),
+            char::{{ icon.const_ident }} => Ok(Self::{{ icon.enum_ident }}),
 {%- endfor %}
             _ => Err(IconTryFromError(())),
         }
