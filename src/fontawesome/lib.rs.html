@@ -36,7 +36,7 @@
 </pre><pre class="rust"><code><span class="doccomment">//! The [Font Awesome](https://fontawesome.com/) icon set for Rust.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! ```</span>
-<span class="doccomment">//! println!(&quot;Hello {}&quot;, fontawesome::CHAR_RUST);</span>
+<span class="doccomment">//! println!(&quot;Hello {}&quot;, fontawesome::char::RUST);</span>
 <span class="doccomment">//! ```</span>
 
 <span class="macro">include!</span>(<span class="macro">concat!</span>(<span class="macro">env!</span>(<span class="string">&quot;OUT_DIR&quot;</span>), <span class="string">&quot;/lib.rs&quot;</span>));
@@ -59,15 +59,15 @@
 
 <span class="doccomment">/// The error type returned when a character conversion fails.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Debug</span>, <span class="ident">Eq</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">TryFromIconError</span>;
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">IconTryFromError</span>(());
 
-<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">TryFromIconError</span> {
+<span class="kw">impl</span> <span class="ident">fmt::Display</span> <span class="kw">for</span> <span class="ident">IconTryFromError</span> {
     <span class="kw">fn</span> <span class="ident">fmt</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">f</span>: <span class="kw-2">&amp;</span><span class="kw-2">mut</span> <span class="ident">fmt::Formatter</span>) <span class="op">-</span><span class="op">&gt;</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">fmt::Error</span><span class="op">&gt;</span> {
         <span class="string">&quot;invalid icon character&quot;</span>.<span class="ident">fmt</span>(<span class="ident">f</span>)
     }
 }
 
-<span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">TryFromIconError</span> {}
+<span class="kw">impl</span> <span class="ident">Error</span> <span class="kw">for</span> <span class="ident">IconTryFromError</span> {}
 </code></pre></div>
 </section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="fontawesome" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
     <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
