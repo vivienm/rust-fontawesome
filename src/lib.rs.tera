@@ -52,14 +52,14 @@ impl Icon {
 }
 
 impl std::convert::TryFrom<char> for Icon {
-    type Error = TryFromIconError;
+    type Error = IconTryFromError;
 
     fn try_from(value: char) -> Result<Self, Self::Error> {
         match value {
 {%- for icon in icons %}
             CHAR_{{ icon.const_ident }} => Ok(Self::{{ icon.enum_ident }}),
 {%- endfor %}
-            _ => Err(TryFromIconError),
+            _ => Err(IconTryFromError(())),
         }
     }
 }

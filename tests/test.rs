@@ -1,6 +1,6 @@
 use std::convert::TryFrom;
 
-use fontawesome::{Icon, TryFromIconError};
+use fontawesome::Icon;
 
 #[test]
 fn count() {
@@ -41,13 +41,13 @@ fn into() {
 #[test]
 fn try_from() {
     assert_eq!(Icon::try_from('\u{e07a}'), Ok(Icon::Rust));
-    assert_eq!(Icon::try_from('\x00'), Err(TryFromIconError));
+    assert!(Icon::try_from('\x00').is_err());
 }
 
 #[test]
 fn try_into() {
     assert_eq!(char::try_into('\u{e07a}'), Ok(Icon::Rust));
-    assert_eq!(TryInto::<Icon>::try_into('\x00'), Err(TryFromIconError));
+    assert!(TryInto::<Icon>::try_into('\x00').is_err());
 }
 
 #[test]

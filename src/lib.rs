@@ -24,12 +24,12 @@ impl fmt::Display for Icon {
 
 /// The error type returned when a character conversion fails.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
-pub struct TryFromIconError;
+pub struct IconTryFromError(());
 
-impl fmt::Display for TryFromIconError {
+impl fmt::Display for IconTryFromError {
     fn fmt(&self, f: &mut fmt::Formatter) -> Result<(), fmt::Error> {
         "invalid icon character".fmt(f)
     }
 }
 
-impl Error for TryFromIconError {}
+impl Error for IconTryFromError {}
