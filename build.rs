@@ -24,7 +24,7 @@ struct Icon {
     unicode: String,
 }
 
-fn fix_leading_digit(mut icon_name: String) -> String {
+fn escape_leading_digit(mut icon_name: String) -> String {
     if icon_name
         .chars()
         .next()
@@ -41,7 +41,7 @@ fn const_ident_from_name(icon_name: &str) -> String {
 }
 
 fn enum_ident_from_name(icon_name: &str) -> String {
-    fix_leading_digit(icon_name.to_case(Case::Pascal))
+    escape_leading_digit(icon_name.to_case(Case::Pascal))
 }
 
 async fn load_icons() -> anyhow::Result<Vec<Icon>> {
