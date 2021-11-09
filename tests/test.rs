@@ -29,6 +29,11 @@ fn char() {
 }
 
 #[test]
+fn from() {
+    assert_eq!(char::from(Icon::Rust), '\u{e07a}')
+}
+
+#[test]
 fn into() {
     assert_eq!(Into::<char>::into(Icon::Rust), '\u{e07a}');
 }
@@ -37,6 +42,12 @@ fn into() {
 fn try_from() {
     assert_eq!(Icon::try_from('\u{e07a}'), Ok(Icon::Rust));
     assert_eq!(Icon::try_from('\x00'), Err(TryFromIconError));
+}
+
+#[test]
+fn try_into() {
+    assert_eq!(char::try_into('\u{e07a}'), Ok(Icon::Rust));
+    assert_eq!(TryInto::<Icon>::try_into('\x00'), Err(TryFromIconError));
 }
 
 #[test]
