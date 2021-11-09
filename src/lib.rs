@@ -4,7 +4,7 @@
 //! println!("Hello {}", fontawesome::CHAR_RUST);
 //! ```
 
-include!(concat!(env!("OUT_DIR"), "/icon.rs"));
+include!(concat!(env!("OUT_DIR"), "/lib.rs"));
 
 use std::error::Error;
 use std::fmt;

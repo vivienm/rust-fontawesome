@@ -76,7 +76,7 @@ where
     template_ctx.insert("version", &FA_VERSION);
     template_ctx.insert("icons", &icons);
     let target_file = File::create(&target_path)?;
-    templates.render_to("icon.rs.tera", &template_ctx, target_file)?;
+    templates.render_to("lib.rs.tera", &template_ctx, target_file)?;
     Ok(())
 }
 
@@ -85,11 +85,11 @@ async fn main() -> anyhow::Result<()> {
     let icons = load_icons().await?;
 
     let target_dir: PathBuf = env::var_os("OUT_DIR").unwrap().into();
-    let target_path = target_dir.join("icon.rs");
+    let target_path = target_dir.join("lib.rs");
     dump_module(&icons, &target_path)?;
 
     println!("Output file written to {:?}", &target_path);
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=src/icon.rs.tera");
+    println!("cargo:rerun-if-changed=src/lib.rs.tera");
     Ok(())
 }
