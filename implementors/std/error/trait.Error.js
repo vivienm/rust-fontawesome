@@ -1,3 +1,3 @@
 (function() {var implementors = {};
-implementors["fontawesome"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.56.1/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"struct\" href=\"fontawesome/struct.IconTryFromError.html\" title=\"struct fontawesome::IconTryFromError\">IconTryFromError</a>","synthetic":false,"types":["fontawesome::IconTryFromError"]}];
+implementors["fontawesome"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/1.58.0/std/error/trait.Error.html\" title=\"trait std::error::Error\">Error</a> for <a class=\"struct\" href=\"fontawesome/struct.IconTryFromError.html\" title=\"struct fontawesome::IconTryFromError\">IconTryFromError</a>","synthetic":false,"types":["fontawesome::IconTryFromError"]}];
 if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
