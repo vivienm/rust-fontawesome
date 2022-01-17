@@ -6,6 +6,10 @@ edition = "2021"
 description = "The Font Awesome icon set for Rust"
 license = "MIT"
 
+[features]
+default = ["std"]
+std = []
+
 [build-dependencies]
 anyhow = "1.0.41"
 convert_case = "0.4.0"
