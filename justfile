@@ -7,6 +7,7 @@ build:
     {{cargo}} build
 
 check:
+    {{cargo}} check --no-default-features
     {{cargo}} check
 
 test:

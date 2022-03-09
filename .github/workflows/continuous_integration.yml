@@ -18,6 +18,10 @@ jobs:
     - uses: actions-rs/cargo@v1
       with:
         command: check
+        args: --no-default-features
+    - uses: actions-rs/cargo@v1
+      with:
+        command: check
 
   test:
     name: Test
@@ -78,3 +82,18 @@ jobs:
     - uses: actions-rs/audit-check@v1
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
+
+  doc:
+    name: Doc
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: stable
+        override: true
+    - uses: actions-rs/cargo@v1
+      with:
+        command: rustdoc
+        args: -- -D warnings

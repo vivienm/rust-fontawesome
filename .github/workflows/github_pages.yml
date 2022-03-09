@@ -18,7 +18,8 @@ jobs:
         override: true
     - uses: actions-rs/cargo@v1
       with:
-        command: doc
+        command: rustdoc
+        args: -- -D warnings
     - uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
         branch: gh-pages
