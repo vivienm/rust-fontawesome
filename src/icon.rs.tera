@@ -1,0 +1,135 @@
+mod char {
+{%- for icon in icons %}
+
+    pub const {{ icon.char_ident }}: char = '\u{{ '{' }}{{ icon.unicode }}{{ '}' }}';
+{%- endfor %}
+
+}
+
+/// The enum of Font Awesome icons.
+#[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+#[non_exhaustive]
+pub enum Icon {
+{%- for icon in icons %}
+    /// {{ icon.label }} ([`{{ icon.name }}`](https://fontawesome.com/icons/{{ icon.name }}), {% if icon.is_free %}Free{% else %}Pro{% endif %} plan).
+    {{ icon.ident }},
+{%- endfor %}
+}
+
+impl Icon {
+    const FREE_VARIANTS: [Icon; {{ icons | filter(attribute="is_free", value=true) | length }}] = [
+{%- for icon in icons %}
+{%- if icon.is_free %}
+        Icon::{{ icon.ident }},
+{%- endif %}
+{%- endfor %}
+    ];
+
+    const PRO_VARIANTS: [Icon; {{ icons | length }}] = [
+{%- for icon in icons %}
+        Icon::{{ icon.ident }},
+{%- endfor %}
+    ];
+
+    /// Returns all available icons for the given license plan.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fontawesome::{Icon, Plan};
+    ///
+    /// assert!(Icon::variants(Plan::Free).contains(&Icon::Rust));
+    ///
+    /// assert!(!Icon::variants(Plan::Free).contains(&Icon::Crab));
+    /// ```
+    #[inline]
+    pub const fn variants(plan: crate::plan::Plan) -> &'static [Self] {
+        match plan {
+            crate::plan::Plan::Free => &Self::FREE_VARIANTS,
+            crate::plan::Plan::Pro => &Self::PRO_VARIANTS,
+        }
+    }
+
+    /// The identifying name of the icon.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fontawesome::Icon;
+    ///
+    /// assert_eq!(Icon::Rust.name(), "rust");
+    /// ```
+    pub const fn name(self) -> &'static str {
+        match self {
+{%- for icon in icons %}
+            Self::{{ icon.ident }} => "{{ icon.name }}",
+{%- endfor %}
+        }
+    }
+
+    /// The icon label: a human readable representation of the icon name.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fontawesome::Icon;
+    ///
+    /// assert_eq!(Icon::Rust.label(), "Rust");
+    /// ```
+    pub const fn label(self) -> &'static str {
+        match self {
+{%- for icon in icons %}
+            Self::{{ icon.ident }} => "{{ icon.label }}",
+{%- endfor %}
+        }
+    }
+
+    /// The unicode glyph corresponding to the icon.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fontawesome::Icon;
+    ///
+    /// assert_eq!(Icon::Rust.char(), '\u{e07a}');
+    /// ```
+    pub const fn char(self) -> char {
+        match self {
+{%- for icon in icons %}
+            Self::{{ icon.ident }} => char::{{ icon.char_ident }},
+{%- endfor %}
+        }
+    }
+
+    /// The license plan the icon is available with.
+    ///
+    /// # Examples
+    ///
+    /// ```
+    /// use fontawesome::{Icon, Plan};
+    ///
+    /// assert_eq!(Icon::Rust.plan(), Plan::Free);
+    ///
+    /// assert!(Icon::Crab.plan().is_pro());
+    /// ```
+    pub const fn plan(self) -> crate::plan::Plan {
+        match self {
+{%- for icon in icons %}
+            Self::{{ icon.ident }} => crate::plan::Plan::{% if icon.is_free %}Free{% else %}Pro{% endif %},
+{%- endfor %}
+        }
+    }
+}
+
+impl core::convert::TryFrom<char> for Icon {
+    type Error = crate::error::TryFromCharError;
+
+    fn try_from(value: char) -> Result<Self, Self::Error> {
+        match value {
+{%- for icon in icons %}
+            char::{{ icon.char_ident }} => Ok(Self::{{ icon.ident }}),
+{%- endfor %}
+            _ => Err(crate::error::TryFromCharError(())),
+        }
+    }
+}

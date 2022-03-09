@@ -1,3 +1,5 @@
+use fontawesome::Icon;
+
 fn main() {
-    println!("Hello {}", fontawesome::char::RUST);
+    println!("Hello {}", Icon::Rust);
 }

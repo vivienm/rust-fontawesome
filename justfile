@@ -1,22 +1,10 @@
 DEFAULT: ci
 cargo := "cargo"
 
+ci: check test fmt clippy doc audit
+
 build:
     {{cargo}} build
-
-doc:
-    {{cargo}} doc
-
-clean:
-    rm -fr "{{justfile_directory()}}/target"
-
-install:
-    {{cargo}} install --path "{{justfile_directory()}}"
-
-uninstall:
-    {{cargo}} uninstall "$({{cargo}} pkgid)"
-
-ci: check test fmt clippy audit
 
 check:
     {{cargo}} check
@@ -29,6 +17,9 @@ fmt:
 
 clippy:
     {{cargo}} clippy -- -D warnings
+
+doc:
+    {{cargo}} rustdoc -- -D warnings
 
 audit:
     {{cargo}} audit

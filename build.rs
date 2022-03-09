@@ -1,95 +1,179 @@
-use std::collections::HashMap;
-use std::env;
-use std::fs::File;
-use std::path::{Path, PathBuf};
+use std::{env, fs::File, path::PathBuf};
 
+use anyhow::Result;
 use convert_case::{Case, Casing};
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use tera::Tera;
 
-static FA_VERSION: &str = "5.15.4";
+mod api {
+    use std::collections::HashMap;
 
-#[derive(Debug, Deserialize)]
-struct IconData {
-    label: String,
-    unicode: String,
+    use anyhow::Result;
+    use serde::Deserialize;
+
+    static URL: &str = "https://api.fontawesome.com";
+    // NOTE: version should be "latest", but it returns 5.14.4 as of today (2022-03-09).
+    static QUERY_PARAM: &str = "\
+        query {
+            release (version: \"6.0.0\") {
+                version,
+                icons {
+                    id,
+                    label,
+                    unicode,
+                    membership {
+                        free,
+                    },
+                },
+            },
+        },
+    ";
+
+    #[derive(Deserialize)]
+    struct Response {
+        data: Data,
+    }
+
+    #[derive(Deserialize)]
+    struct Data {
+        release: Release,
+    }
+
+    #[derive(Debug, Deserialize)]
+    pub struct Release {
+        pub icons: Vec<Icon>,
+        pub version: String,
+    }
+
+    #[derive(Debug, Deserialize)]
+    pub struct Icon {
+        pub id: String,
+        pub label: String,
+        pub membership: Membership,
+        pub unicode: String,
+    }
+
+    #[derive(Debug, Deserialize)]
+    pub struct Membership {
+        pub free: Vec<String>,
+    }
+
+    pub async fn get_release() -> Result<Release> {
+        let client = reqwest::Client::new();
+        let resp: Response = client
+            .post(URL)
+            .json(&HashMap::from([("query", QUERY_PARAM)]))
+            .send()
+            .await?
+            .json()
+            .await?;
+        Ok(resp.data.release)
+    }
 }
 
-#[derive(Debug, Serialize)]
+#[derive(Serialize)]
 struct Icon {
-    const_ident: String,
-    enum_ident: String,
+    ident: String,
+    char_ident: String,
     name: String,
     label: String,
+    is_free: bool,
     unicode: String,
 }
 
-fn escape_leading_digit(mut icon_name: String) -> String {
-    if icon_name
-        .chars()
-        .next()
-        .expect("name should not be empty")
-        .is_digit(10)
-    {
-        icon_name.insert(0, '_');
+impl Icon {
+    fn escape_leading_digit(mut name: String) -> String {
+        if name
+            .chars()
+            .next()
+            .expect("name should not be empty")
+            .is_digit(10)
+        {
+            name.insert(0, '_');
+        }
+        name
     }
-    icon_name
+
+    fn ident_from_name(name: &str) -> String {
+        Self::escape_leading_digit(name.to_case(Case::Pascal))
+    }
+
+    fn char_ident_from_name(name: &str) -> String {
+        Self::escape_leading_digit(name.to_case(Case::ScreamingSnake))
+    }
 }
 
-fn const_ident_from_name(icon_name: &str) -> String {
-    escape_leading_digit(icon_name.to_case(Case::ScreamingSnake))
+impl From<api::Icon> for Icon {
+    fn from(icon: api::Icon) -> Self {
+        Self {
+            ident: Self::ident_from_name(&icon.id),
+            char_ident: Self::char_ident_from_name(&icon.id),
+            name: icon.id,
+            label: icon.label,
+            is_free: !icon.membership.free.is_empty(),
+            unicode: icon.unicode,
+        }
+    }
 }
 
-fn enum_ident_from_name(icon_name: &str) -> String {
-    escape_leading_digit(icon_name.to_case(Case::Pascal))
+type Version = (u8, u8, u8);
+
+fn parse_version(s: &str) -> Result<Version> {
+    let mut components = s.split('.');
+    let major: u8 = components.next().expect("major").parse()?;
+    let minor: u8 = components.next().expect("minor").parse()?;
+    let patch: u8 = components.next().expect("patch").parse()?;
+    assert!(components.next().is_none());
+    Ok((major, minor, patch))
 }
 
-async fn load_icons() -> anyhow::Result<Vec<Icon>> {
-    let fa_url = format!(
-        "https://raw.githubusercontent.com/FortAwesome/Font-Awesome/{}/metadata/icons.yml",
-        FA_VERSION
-    );
-    let fa_data = reqwest::get(&fa_url).await?.bytes().await?;
-    let icons: HashMap<String, IconData> = serde_yaml::from_slice(&fa_data)?;
-    let mut icons: Vec<Icon> = icons
-        .into_iter()
-        .map(|(name, data)| Icon {
-            const_ident: const_ident_from_name(&name),
-            enum_ident: enum_ident_from_name(&name),
-            name,
-            label: data.label,
-            unicode: data.unicode,
-        })
-        .collect();
-    icons.sort_by(|i1, i2| i1.name.cmp(&i2.name));
-    Ok(icons)
+struct Release {
+    version: Version,
+    icons: Vec<Icon>,
 }
 
-fn dump_module<P>(icons: &[Icon], target_path: P) -> anyhow::Result<()>
-where
-    P: AsRef<Path>,
-{
+async fn get_release() -> Result<Release> {
+    let api_release = api::get_release().await?;
+    Ok(Release {
+        version: parse_version(&api_release.version)?,
+        icons: api_release.icons.into_iter().map(Into::into).collect(),
+    })
+}
+
+fn render_template(
+    templates: &Tera,
+    context: &tera::Context,
+    template_name: &str,
+    target_name: &str,
+) -> Result<()> {
+    let target_dir: PathBuf = env::var_os("OUT_DIR").unwrap().into();
+    let target_path = target_dir.join(target_name);
+
+    let target_file = File::create(&target_path)?;
+    templates.render_to(template_name, context, target_file)?;
+    println!("Output file written to {:?}", &target_path);
+    println!("cargo:rerun-if-changed=src/{}", template_name);
+    Ok(())
+}
+
+fn render_templates(release: &Release) -> Result<()> {
     let mut source_dir: PathBuf = env::var_os("CARGO_MANIFEST_DIR").unwrap().into();
     source_dir.push("src");
     let templates = Tera::new(source_dir.join("*.tera").to_str().unwrap())?;
-    let mut template_ctx = tera::Context::new();
-    template_ctx.insert("version", &FA_VERSION);
-    template_ctx.insert("icons", &icons);
-    let target_file = File::create(&target_path)?;
-    templates.render_to("lib.rs.tera", &template_ctx, target_file)?;
+
+    let mut context = tera::Context::new();
+    context.insert("version", &release.version);
+    context.insert("icons", &release.icons);
+
+    render_template(&templates, &context, "icon.rs.tera", "icon.rs")?;
+    render_template(&templates, &context, "version.rs.tera", "version.rs")?;
     Ok(())
 }
 
 #[tokio::main(flavor = "current_thread")]
-async fn main() -> anyhow::Result<()> {
-    let icons = load_icons().await?;
-
-    let target_dir: PathBuf = env::var_os("OUT_DIR").unwrap().into();
-    let target_path = target_dir.join("lib.rs");
-    dump_module(&icons, &target_path)?;
-
-    println!("Output file written to {:?}", &target_path);
+async fn main() -> Result<()> {
+    let release = get_release().await?;
     println!("cargo:rerun-if-changed=build.rs");
-    println!("cargo:rerun-if-changed=src/lib.rs.tera");
+    render_templates(&release)?;
     Ok(())
 }

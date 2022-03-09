@@ -1,0 +1,2 @@
+/// Version `{{ version.0 }}.{{ version.1 }}.{{ version.2 }}`.
+pub const VERSION: Version = Version::new({{ version.0 }}, {{ version.1 }}, {{ version.2 }});
