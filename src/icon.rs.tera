@@ -31,7 +31,7 @@ impl Icon {
 {%- endfor %}
     ];
 
-    /// Returns all available icons for the given license plan.
+    /// Returns all available icon variants for the given license plan.
     ///
     /// # Examples
     ///
@@ -67,7 +67,7 @@ impl Icon {
         }
     }
 
-    /// The icon label: a human readable representation of the icon name.
+    /// The icon label: a prettier representation of the icon name.
     ///
     /// # Examples
     ///
