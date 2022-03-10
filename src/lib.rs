@@ -5,7 +5,7 @@
 //!
 //! println!("Hello {}", Icon::Rust);
 //! ```
-#![feature(doc_auto_cfg)]
+#![cfg_attr(doc, feature(doc_auto_cfg))]
 #![cfg_attr(not(feature = "std"), no_std)]
 
 pub use crate::{
