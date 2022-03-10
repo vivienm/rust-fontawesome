@@ -31,7 +31,7 @@
 <span class="doccomment">//!</span>
 <span class="doccomment">//! println!(&quot;Hello {}&quot;, Icon::Rust);</span>
 <span class="doccomment">//! ```</span>
-<span class="attribute">#![<span class="ident">feature</span>(<span class="ident">doc_auto_cfg</span>)]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">doc</span>, <span class="ident">feature</span>(<span class="ident">doc_auto_cfg</span>))]</span>
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;std&quot;</span>), <span class="ident">no_std</span>)]</span>
 
 <span class="kw">pub</span> <span class="kw">use</span> <span class="kw">crate</span>::{
