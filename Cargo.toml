@@ -4,6 +4,8 @@ version = "0.1.0"
 authors = ["Vivien Maisonneuve <v.maisonneuve@gmail.com>"]
 edition = "2021"
 description = "The Font Awesome icon set for Rust"
+documentation = "https://vivienm.github.io/rust-fontawesome/fontawesome/"
+repository = "https://github.com/vivienm/rust-fontawesome/"
 license = "MIT"
 
 [features]
