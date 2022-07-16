@@ -1,13 +1,12 @@
 DEFAULT: ci
 cargo := "cargo"
 
-ci: check test fmt clippy doc audit
+ci: check test fmt clippy doc deny
 
 build:
     {{cargo}} build
 
 check:
-    {{cargo}} check --no-default-features
     {{cargo}} check
 
 test:
@@ -20,7 +19,7 @@ clippy:
     {{cargo}} clippy -- -D warnings
 
 doc:
-    {{cargo}} rustdoc -- -D warnings
+    {{cargo}} +nightly rustdoc -- -D warnings
 
-audit:
-    {{cargo}} audit
+deny:
+    {{cargo}} deny check
