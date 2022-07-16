@@ -1,4 +1,4 @@
-name: Continuous integration
+name: "Continuous integration"
 
 on:
   push:
@@ -6,94 +6,52 @@ on:
 
 jobs:
   check:
-    name: Check
-    runs-on: ubuntu-latest
+    name: "Check"
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly
-        override: true
-    - uses: actions-rs/cargo@v1
-      with:
-        command: check
-        args: --no-default-features
-    - uses: actions-rs/cargo@v1
-      with:
-        command: check
+    - uses: "actions/checkout@v3"
+    - uses: "dtolnay/rust-toolchain@stable"
+    - run: "cargo check"
 
   test:
-    name: Test
-    runs-on: ubuntu-latest
+    name: "Test"
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly
-        override: true
-    - uses: actions-rs/cargo@v1
-      with:
-        command: test
+    - uses: "actions/checkout@v3"
+    - uses: "dtolnay/rust-toolchain@nightly"
+    - run: "cargo test"
 
   fmt:
-    name: Fmt
-    runs-on: ubuntu-latest
+    name: "Fmt"
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly
-        override: true
-        components: rustfmt
-    - uses: actions-rs/cargo@v1
-      with:
-        command: fmt
-        args: --all -- --check
+    - uses: "actions/checkout@v3"
+    - uses: "dtolnay/rust-toolchain@stable"
+    - run: "cargo fmt --all -- --check"
 
   clippy:
-    name: Clippy
-    runs-on: ubuntu-latest
+    name: "Clippy"
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly
-        override: true
-        components: clippy
-    - uses: actions-rs/cargo@v1
-      with:
-        command: clippy
-        args: -- -D warnings
-
-  audit:
-    name: Audit
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: nightly
-        override: true
-    - uses: actions-rs/audit-check@v1
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
+    - uses: "actions/checkout@v3"
+    - uses: "dtolnay/rust-toolchain@stable"
+    - run: "cargo clippy -- -D warnings"
 
   doc:
-    name: Doc
-    runs-on: ubuntu-latest
+    name: "Doc"
+    runs-on: "ubuntu-latest"
     steps:
-    - uses: actions/checkout@v2
-    - uses: actions-rs/toolchain@v1
+    - uses: "actions/checkout@v3"
+    - uses: "dtolnay/rust-toolchain@nightly"
+    - run: "cargo rustdoc -- -D warnings"
+    - if: "${{ github.ref == 'refs/heads/master' }}"
+      uses: "JamesIves/github-pages-deploy-action@v4"
       with:
-        profile: minimal
-        toolchain: nightly
-        override: true
-    - uses: actions-rs/cargo@v1
-      with:
-        command: rustdoc
-        args: -- -D warnings
+        folder: "target/doc"
+
+  deny:
+    name: "Deny"
+    runs-on: "ubuntu-latest"
+    steps:
+    - uses: "actions/checkout@v3"
+    - uses: "EmbarkStudios/cargo-deny-action@v1"
