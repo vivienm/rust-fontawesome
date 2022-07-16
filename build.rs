@@ -87,7 +87,7 @@ impl Icon {
             .chars()
             .next()
             .expect("name should not be empty")
-            .is_digit(10)
+            .is_ascii_digit()
         {
             name.insert(0, '_');
         }
