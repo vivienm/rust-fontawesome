@@ -1,15 +1,20 @@
 # Changes here will be overwritten by Copier. NEVER EDIT MANUALLY.
 
-_commit: 242b667
+_commit: e9d1bbf
 _src_path: gh:vivienm/copier-rust
 author_fullname: Vivien Maisonneuve
 copyright_date: '2022'
 copyright_holder: Vivien Maisonneuve
 copyright_license: MIT
 package_name: fontawesome
+pages_enabled: true
+pages_provider: github.io
+pages_url: https://vivienm.github.io/rust-fontawesome
 project_description: The Font Awesome icon set for Rust.
 project_name: fontawesome
 project_type: lib
+repository_hosted: true
 repository_name: rust-fontawesome
 repository_namespace: vivienm
 repository_provider: github.com
+repository_url: https://github.com/vivienm/rust-fontawesome

@@ -5,6 +5,11 @@
 //!
 //! println!("Hello {}", Icon::Rust);
 //! ```
+//!
+//! [Repository]
+//!
+//! [Repository]: https://github.com/vivienm/rust-fontawesome
+
 #![cfg_attr(doc, feature(doc_auto_cfg))]
 #![cfg_attr(not(feature = "std"), no_std)]
 

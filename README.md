@@ -8,4 +8,6 @@ use fontawesome::Icon;
 println!("Hello {}", Icon::Rust);
 ```
 
-[API documentation](https://vivienm.github.io/rust-fontawesome/fontawesome/index.html)
+[Documentation]
+
+[Documentation]: https://vivienm.github.io/rust-fontawesome/fontawesome/
