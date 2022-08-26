@@ -1,6 +1,6 @@
 # fontawesome
 
-The [Font Awesome](https://fontawesome.com/) icon set for Rust.
+The [Font Awesome][FontAwesome] icon set for Rust.
 
 ```rust
 use fontawesome::Icon;
@@ -10,4 +10,5 @@ println!("Hello {}", Icon::Rust);
 
 [Documentation]
 
+[FontAwesome]: https://fontawesome.com/
 [Documentation]: https://vivienm.github.io/rust-fontawesome/fontawesome/

@@ -1,4 +1,4 @@
-//! The [Font Awesome](https://fontawesome.com/) icon set for Rust.
+//! The [Font Awesome][FontAwesome] icon set for Rust.
 //!
 //! ```
 //! use fontawesome::Icon;
@@ -8,6 +8,7 @@
 //!
 //! [Repository]
 //!
+//! [FontAwesome]: https://fontawesome.com/
 //! [Repository]: https://github.com/vivienm/rust-fontawesome
 
 #![cfg_attr(doc, feature(doc_auto_cfg))]
