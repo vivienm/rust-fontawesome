@@ -11,4 +11,4 @@ println!("Hello {}", Icon::Rust);
 [Documentation]
 
 [FontAwesome]: https://fontawesome.com/
-[Documentation]: https://vivienm.github.io/rust-fontawesome/fontawesome/
+[Documentation]: https://vivienm.github.io/rust-fontawesome/docs/fontawesome/
