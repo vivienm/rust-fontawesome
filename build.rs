@@ -15,7 +15,7 @@ mod api {
     // NOTE: version should be "latest", but it returns 5.14.4 as of today (2022-03-09).
     static QUERY_PARAM: &str = "\
         query {
-            release (version: \"6.1.2\") {
+            release (version: \"6.2.0\") {
                 version,
                 icons {
                     id,
