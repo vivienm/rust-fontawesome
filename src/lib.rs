@@ -1,3 +1,6 @@
+#![cfg_attr(doc, feature(doc_auto_cfg))]
+#![cfg_attr(not(feature = "std"), no_std)]
+
 //! The [Font Awesome][FontAwesome] icon set for Rust.
 //!
 //! ```
@@ -10,9 +13,6 @@
 //!
 //! [FontAwesome]: https://fontawesome.com/
 //! [Repository]: https://github.com/vivienm/rust-fontawesome
-
-#![cfg_attr(doc, feature(doc_auto_cfg))]
-#![cfg_attr(not(feature = "std"), no_std)]
 
 pub use crate::{
     error::{ParseVersionError, TryFromCharError},
