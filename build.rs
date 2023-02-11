@@ -151,7 +151,7 @@ fn render_template(
     let target_file = File::create(&target_path)?;
     templates.render_to(template_name, context, target_file)?;
     println!("Output file written to {:?}", &target_path);
-    println!("cargo:rerun-if-changed=src/{}", template_name);
+    println!("cargo:rerun-if-changed=src/{template_name}");
     Ok(())
 }
 
