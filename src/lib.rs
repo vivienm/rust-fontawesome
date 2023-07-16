@@ -1,3 +1,4 @@
+#![warn(missing_docs)]
 #![cfg_attr(doc, feature(doc_auto_cfg))]
 #![cfg_attr(not(feature = "std"), no_std)]
 
