@@ -12,9 +12,9 @@ default = ["std"]
 std = []
 
 [build-dependencies]
-anyhow = "1.0.56"
-convert_case = "0.5.0"
-reqwest = { version = "0.11.10", features = ["json"] }
-serde = { version = "1.0.136", features = ["derive"] }
+anyhow = "1.0.72"
+convert_case = "0.6.0"
+reqwest = { version = "0.11.18", features = ["json"] }
+serde = { version = "1.0.171", features = ["derive"] }
 tera = { version = "1.15.0", default_features = false }
-tokio = { version = "1.17.0", features = ["macros"] }
+tokio = { version = "1.29.1", features = ["macros"] }
