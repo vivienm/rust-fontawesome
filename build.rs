@@ -14,7 +14,7 @@ mod api {
     static URL: &str = "https://api.fontawesome.com";
     static QUERY_PARAM: &str = "\
         query {
-            release (version: \"6.5.1\") {
+            release (version: \"6.5.2\") {
                 version,
                 icons {
                     id,
